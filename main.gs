@@ -1,10 +1,3 @@
-/*
-事前準備
-1. https://developer.spotify.com/dashboard/applications でアプリ作成
-2. clientID と clientSecret をスクリプトプロパティに保存
-3. https://accounts.spotify.com/authorize?response_type=code&redirect_uri=https://example.com/callback&client_id={ID} で code 発行
-4. 3で発行した authorizationCode をスクリプトプロパティに保存
-*/
 function main() {
   const today = new Date();
   setTrigger(today);
@@ -54,7 +47,7 @@ function getPlaylistTracks(playlistID, offset = 0) {
 function writeSheets(items) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   sheet.clear();
-  sheet.appendRow(['曲名', 'アーティスト名', 'URL', '発売日', '追加日']);
+  sheet.appendRow(['name', 'artists', 'URL', 'release_date', 'added_at']);
 
   const r = [];
   for (let key in items) {
