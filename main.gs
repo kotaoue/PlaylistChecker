@@ -1,15 +1,10 @@
 function main() {
   const today = new Date();
-  try {
-    const items = getPlaylistTracks(PropertiesService.getScriptProperties().getProperty("playlistID"));
-    writeSheets(items);
-    sendMessage(today, items);
-  }
-  catch (e) {
-    console.error('error: ', e.message);
-  } finally {
-    setTrigger(today);
-  }
+  setTrigger(today);
+
+  const items = getPlaylistTracks(PropertiesService.getScriptProperties().getProperty("playlistID"));
+  writeSheets(items);
+  sendMessage(today, items);
 }
 
 function setTrigger(today) {
