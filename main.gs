@@ -1,18 +1,26 @@
 function main() {
   const today = new Date();
-  setTrigger(today);
-
-  const items = getPlaylistTracks(PropertiesService.getScriptProperties().getProperty("playlistID"));
-  writeSheets(items);
-  sendMessage(today, items);
+  try {
+    const items = getPlaylistTracks(PropertiesService.getScriptProperties().getProperty("playlistID"));
+    writeSheets(items);
+    sendMessage(today, items);
+  }
+  catch (e) {
+    console.error('error: ', e.message);
+  } finally {
+    setTrigger(today);
+  }
 }
 
 function setTrigger(today) {
+  if (today == undefined) {
+    today = new Date();
+  }
   const time = new Date(today.getTime() + (1000 * 60 * 60 * 24));
   time.setHours(9);
   time.setMinutes(0);
   time.setSeconds(0);
-  ScriptApp.newTrigger('autoRouletteBot').timeBased().at(time).create();
+  ScriptApp.newTrigger('main').timeBased().at(time).create();
 }
 
 function getPlaylistTracks(playlistID, offset = 0) {
@@ -79,7 +87,6 @@ function sendMessage(today, items) {
 
   if (message != "") {
     message = "昨日見つけた東京だよ\n" + message;
-    console.log(message);
     postMessage(message);
   }
 }
